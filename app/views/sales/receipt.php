@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $sale ? 'Receipt ' . e($sale['invoice_no']) : 'Receipt unavailable' ?> - <?= e(APP_NAME) ?></title>
+    <script>document.documentElement.dataset.theme = localStorage.getItem('cmd-theme') === 'dark' ? 'dark' : 'light';</script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">

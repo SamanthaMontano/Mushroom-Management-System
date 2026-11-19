@@ -17,11 +17,14 @@ class Controller
 
     protected function view(string $view, array $data = [])
     {
-        extract($data);
         $viewFile = APP_PATH . '/views/' . $view . '.php';
         if (!file_exists($viewFile)) {
             die("View not found: {$view}");
         }
+        require_once APP_PATH . '/models/FarmNotification.php';
+        $data['notifications'] = (new FarmNotification())->latest();
+        $data['notificationUserId'] = (int) ($_SESSION['employee_id'] ?? 0);
+        extract($data);
         require APP_PATH . '/views/layouts/header.php';
         require APP_PATH . '/views/layouts/sidebar.php';
         require $viewFile;
@@ -67,7 +70,10 @@ class Controller
         }
 
         $stmt = Database::getConnection()->prepare(
-            'SELECT role, status FROM employees WHERE employee_id = :employee_id LIMIT 1'
+            'SELECT first_name, last_name, position, role, status
+             FROM employees
+             WHERE employee_id = :employee_id
+             LIMIT 1'
         );
         $stmt->execute(['employee_id' => $_SESSION['employee_id']]);
         $account = $stmt->fetch();
@@ -79,6 +85,8 @@ class Controller
             exit;
         }
 
+        $_SESSION['employee_name'] = $account['first_name'] . ' ' . $account['last_name'];
+        $_SESSION['position'] = $account['position'];
         $_SESSION['role'] = $account['role'];
         $_SESSION['account_type'] = $account['role'] === 'admin' ? 'owner' : 'employee';
     }

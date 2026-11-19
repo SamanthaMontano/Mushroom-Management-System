@@ -21,28 +21,28 @@ $harvestColors = ['#426B50', '#BD8658', '#78947B', '#A9BDA7', '#6E7D73', '#C7A17
 <div class="row g-3 mb-3">
     <div class="col-6 col-xl-3">
         <div class="stat-card">
-            <div class="stat-icon stat-icon--green"><i class="bi bi-flower1"></i></div>
+            <div class="stat-icon stat-icon--green"><i data-lucide="sprout"></i></div>
             <div class="stat-value"><?= (int) $activeBatches ?></div>
             <div class="stat-label">Active Batches</div>
         </div>
     </div>
     <div class="col-6 col-xl-3">
         <div class="stat-card">
-            <div class="stat-icon stat-icon--amber"><i class="bi bi-basket2"></i></div>
+            <div class="stat-icon stat-icon--amber"><i data-lucide="wheat"></i></div>
             <div class="stat-value"><?= number_format((float) $totalHarvest, 1) ?> <small>kg</small></div>
             <div class="stat-label">Harvest This Month</div>
         </div>
     </div>
     <div class="col-6 col-xl-3">
         <div class="stat-card">
-            <div class="stat-icon stat-icon--yellow"><i class="bi bi-exclamation-triangle"></i></div>
+            <div class="stat-icon stat-icon--yellow"><i data-lucide="triangle-alert"></i></div>
             <div class="stat-value"><?= (int) $lowStockCount ?></div>
             <div class="stat-label">Low Stock Items</div>
         </div>
     </div>
     <div class="col-6 col-xl-3">
         <div class="stat-card">
-            <div class="stat-icon stat-icon--indigo"><i class="bi bi-truck"></i></div>
+            <div class="stat-icon stat-icon--indigo"><i data-lucide="truck"></i></div>
             <div class="stat-value"><?= (int) $pendingDeliveries ?></div>
             <div class="stat-label">Pending Deliveries</div>
         </div>
@@ -144,7 +144,7 @@ $harvestColors = ['#426B50', '#BD8658', '#78947B', '#A9BDA7', '#6E7D73', '#C7A17
                 <div class="upcoming-list">
                     <?php foreach ($upcomingHarvests as $batch): ?>
                         <div class="upcoming-row">
-                            <span class="activity-mark"><i class="bi bi-calendar-event" aria-hidden="true"></i></span>
+                            <span class="activity-mark"><i data-lucide="calendar-days" aria-hidden="true"></i></span>
                             <div class="upcoming-copy">
                                 <div class="upcoming-title"><?= e($batch['batch_code']) ?> <span class="text-muted fw-normal">· <?= e($batch['mushroom_variety']) ?></span></div>
                                 <div class="upcoming-detail"><?= e($batch['status']) ?></div>
@@ -171,7 +171,7 @@ $harvestColors = ['#426B50', '#BD8658', '#78947B', '#A9BDA7', '#6E7D73', '#C7A17
                 <div class="activity-list">
                     <?php foreach ($recentHarvests as $harvest): ?>
                         <div class="activity-row">
-                            <span class="activity-mark"><i class="bi bi-basket2" aria-hidden="true"></i></span>
+                            <span class="activity-mark"><i data-lucide="wheat" aria-hidden="true"></i></span>
                             <div class="activity-copy">
                                 <div class="activity-title"><?= e($harvest['batch_code']) ?> · <?= e($harvest['mushroom_variety']) ?></div>
                                 <div class="activity-detail"><?= number_format((float) $harvest['weight_kg'], 2) ?> kg · Grade <?= e($harvest['grade']) ?></div>
@@ -196,7 +196,7 @@ $harvestColors = ['#426B50', '#BD8658', '#78947B', '#A9BDA7', '#6E7D73', '#C7A17
                     <?php foreach ($recentActivities as $activity): ?>
                         <div class="activity-row">
                             <span class="activity-mark">
-                                <i class="bi <?= $activity['activity_type'] === 'Sale recorded' ? 'bi-receipt' : ($activity['activity_type'] === 'Harvest recorded' ? 'bi-basket2' : 'bi-gear') ?>" aria-hidden="true"></i>
+                                <i data-lucide="<?= $activity['activity_type'] === 'Sale recorded' ? 'receipt' : ($activity['activity_type'] === 'Harvest recorded' ? 'wheat' : 'settings-2') ?>" aria-hidden="true"></i>
                             </span>
                             <div class="activity-copy">
                                 <div class="activity-title"><?= e($activity['activity_type']) ?></div>
@@ -226,7 +226,7 @@ $harvestColors = ['#426B50', '#BD8658', '#78947B', '#A9BDA7', '#6E7D73', '#C7A17
                 <div class="activity-list">
                     <?php foreach ($lowStockItems as $item): ?>
                         <div class="activity-row">
-                            <span class="activity-mark"><i class="bi bi-box-seam" aria-hidden="true"></i></span>
+                            <span class="activity-mark"><i data-lucide="package" aria-hidden="true"></i></span>
                             <div class="activity-copy">
                                 <div class="activity-title"><?= e($item['item_name']) ?></div>
                                 <div class="activity-detail"><?= number_format((float) $item['quantity'], 1) ?> <?= e($item['unit']) ?> remaining</div>
@@ -248,14 +248,14 @@ $harvestColors = ['#426B50', '#BD8658', '#78947B', '#A9BDA7', '#6E7D73', '#C7A17
         <span class="section-note">Go to a farm workflow</span>
     </div>
     <div class="dashboard-quick-actions">
-        <a class="btn btn-outline-secondary" href="<?= BASE_URL ?>/production"><i class="bi bi-plus-lg"></i> New batch</a>
-        <a class="btn btn-outline-secondary" href="<?= BASE_URL ?>/harvest"><i class="bi bi-basket2"></i> Record harvest</a>
-        <a class="btn btn-outline-secondary" href="<?= BASE_URL ?>/processing"><i class="bi bi-gear"></i> Processing</a>
-        <a class="btn btn-outline-secondary" href="<?= BASE_URL ?>/inventory"><i class="bi bi-box-seam"></i> Inventory</a>
-        <a class="btn btn-outline-secondary" href="<?= BASE_URL ?>/sales"><i class="bi bi-receipt"></i> Sales</a>
-        <a class="btn btn-outline-secondary" href="<?= BASE_URL ?>/delivery"><i class="bi bi-truck"></i> Delivery</a>
+        <a class="btn btn-outline-secondary" href="<?= BASE_URL ?>/production"><i data-lucide="plus"></i> New batch</a>
+        <a class="btn btn-outline-secondary" href="<?= BASE_URL ?>/harvest"><i data-lucide="wheat"></i> Record harvest</a>
+        <a class="btn btn-outline-secondary" href="<?= BASE_URL ?>/processing"><i data-lucide="settings-2"></i> Processing</a>
+        <a class="btn btn-outline-secondary" href="<?= BASE_URL ?>/inventory"><i data-lucide="boxes"></i> Inventory</a>
+        <a class="btn btn-outline-secondary" href="<?= BASE_URL ?>/sales"><i data-lucide="receipt"></i> Sales</a>
+        <a class="btn btn-outline-secondary" href="<?= BASE_URL ?>/delivery"><i data-lucide="truck"></i> Delivery</a>
         <?php if ($isOwner): ?>
-            <a class="btn btn-outline-success" href="<?= BASE_URL ?>/report"><i class="bi bi-bar-chart"></i> Reports</a>
+            <a class="btn btn-outline-success" href="<?= BASE_URL ?>/report"><i data-lucide="chart-no-axes-combined"></i> Reports</a>
         <?php endif; ?>
     </div>
 </section>
@@ -266,31 +266,36 @@ const harvestLabels = <?= json_encode(array_column($harvestRows, 'mushroom_varie
 const harvestValues = <?= json_encode(array_map('floatval', array_column($harvestRows, 'total_kg'))) ?>;
 const harvestColors = <?= json_encode(array_slice(array_merge($harvestColors, $harvestColors), 0, count($harvestRows))) ?>;
 const harvestCanvas = document.getElementById('harvestVarietyChart');
+const dashboardCharts = [];
+const dashboardStyles = getComputedStyle(document.documentElement);
+Chart.defaults.color = dashboardStyles.getPropertyValue('--cmd-muted').trim();
+Chart.defaults.font.family = 'Inter, sans-serif';
 if (harvestCanvas) {
-    new Chart(harvestCanvas, {
+    dashboardCharts.push(new Chart(harvestCanvas, {
         type: 'doughnut',
         data: {
             labels: harvestLabels,
             datasets: [{
                 data: harvestValues,
                 backgroundColor: harvestColors,
-                borderColor: '#ffffff',
+                borderColor: getComputedStyle(document.documentElement).getPropertyValue('--cmd-surface').trim(),
                 borderWidth: 3,
-                hoverOffset: 3
+                borderRadius: 4,
+                hoverOffset: 4
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             cutout: '76%',
-            plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (context) {
+            plugins: { legend: { display: false }, tooltip: { backgroundColor: '#173625', titleColor: '#ffffff', bodyColor: '#ffffff', padding: 10, cornerRadius: 9, callbacks: { label: function (context) {
                 const total = context.dataset.data.reduce((sum, value) => sum + value, 0);
                 const value = Number(context.raw);
                 const share = total > 0 ? (value / total * 100).toFixed(1) : '0.0';
                 return ' ' + value.toFixed(1) + ' kg (' + share + '%)';
             } } } }
         }
-    });
+    }));
 }
 
 <?php if ($isOwner): ?>
@@ -298,32 +303,61 @@ const salesLabels = <?= json_encode(array_column($salesTrend, 'label'), JSON_HEX
 const salesData = <?= json_encode(array_map('floatval', array_column($salesTrend, 'total'))) ?>;
 const salesCanvas = document.getElementById('salesTrendChart');
 if (salesCanvas) {
-    new Chart(salesCanvas, {
+    dashboardCharts.push(new Chart(salesCanvas, {
         type: 'line',
         data: {
             labels: salesLabels,
             datasets: [{
                 label: 'Sales',
                 data: salesData,
-                borderColor: '#426B50',
-                backgroundColor: 'rgba(66,107,80,.08)',
+                borderColor: getComputedStyle(document.documentElement).getPropertyValue('--cmd-primary').trim(),
+                backgroundColor: 'rgba(22,101,52,.10)',
                 fill: true,
-                tension: .3,
-                pointRadius: 2,
-                pointHoverRadius: 4,
-                borderWidth: 2
+                tension: .38,
+                pointRadius: 0,
+                pointHoverRadius: 5,
+                pointHitRadius: 12,
+                borderWidth: 2.5
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#173625',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    padding: 10,
+                    cornerRadius: 9,
+                    callbacks: { label: function (context) { return ' Sales: ₱' + Number(context.raw).toLocaleString(); } }
+                }
+            },
             scales: {
-                x: { grid: { display: false }, border: { display: false } },
-                y: { beginAtZero: true, border: { display: false }, grid: { color: '#edf0ed' }, ticks: { maxTicksLimit: 5 } }
+                x: { grid: { display: false }, border: { display: false }, ticks: { color: dashboardStyles.getPropertyValue('--cmd-muted').trim(), font: { size: 10 } } },
+                y: { beginAtZero: true, border: { display: false }, grid: { color: dashboardStyles.getPropertyValue('--cmd-chart-grid').trim() }, ticks: { maxTicksLimit: 5, color: dashboardStyles.getPropertyValue('--cmd-muted').trim(), font: { size: 9 }, callback: function (value) { return '₱' + Number(value).toLocaleString(); } } }
             }
         }
-    });
+    }));
 }
 <?php endif; ?>
+document.addEventListener('cmd:themechange', function () {
+    const styles = getComputedStyle(document.documentElement);
+    Chart.defaults.color = styles.getPropertyValue('--cmd-muted').trim();
+    Chart.defaults.borderColor = styles.getPropertyValue('--cmd-chart-grid').trim();
+    dashboardCharts.forEach(function (chart) {
+        if (chart.canvas.id === 'harvestVarietyChart') {
+            chart.data.datasets[0].borderColor = styles.getPropertyValue('--cmd-surface').trim();
+        }
+        if (chart.canvas.id === 'salesTrendChart') {
+            chart.data.datasets[0].borderColor = styles.getPropertyValue('--cmd-primary').trim();
+            chart.data.datasets[0].backgroundColor = styles.getPropertyValue('--cmd-chart-fill').trim();
+            chart.options.scales.y.grid.color = styles.getPropertyValue('--cmd-chart-grid').trim();
+            chart.options.scales.x.ticks.color = styles.getPropertyValue('--cmd-muted').trim();
+            chart.options.scales.y.ticks.color = styles.getPropertyValue('--cmd-muted').trim();
+        }
+        chart.update();
+    });
+});
 </script>

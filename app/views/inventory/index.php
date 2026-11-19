@@ -31,36 +31,45 @@
                         </form>
                     </td>
                 </tr>
-                <div class="modal fade" id="editModal<?= $i['inventory_id'] ?>" tabindex="-1">
-                    <div class="modal-dialog">
-                        <form class="modal-content" action="<?= BASE_URL ?>/inventory/update/<?= $i['inventory_id'] ?>" method="POST">
-                            <div class="modal-header"><h5 class="modal-title">Edit Item — <?= e($i['item_name']) ?></h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
-                            <div class="modal-body row g-3">
-                                <div class="col-md-6"><label class="form-label">Item Name</label><input type="text" name="item_name" class="form-control" value="<?= e($i['item_name']) ?>" required></div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Category</label>
-                                    <select name="category" class="form-select">
-                                        <?php foreach (['Substrate','Spawn','Packaging','Equipment','Supplies','Other'] as $c): ?>
-                                            <option value="<?= $c ?>" <?= $c==$i['category']?'selected':'' ?>><?= $c ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-4"><label class="form-label">Quantity</label><input type="number" step="0.01" name="quantity" class="form-control" value="<?= e($i['quantity']) ?>" required></div>
-                                <div class="col-md-4"><label class="form-label">Unit</label><input type="text" name="unit" class="form-control" value="<?= e($i['unit']) ?>" required></div>
-                                <div class="col-md-4"><label class="form-label">Reorder Level</label><input type="number" step="0.01" name="reorder_level" class="form-control" value="<?= e($i['reorder_level']) ?>"></div>
-                                <div class="col-md-6"><label class="form-label">Unit Cost (₱)</label><input type="number" step="0.01" name="unit_cost" class="form-control" value="<?= e($i['unit_cost']) ?>"></div>
-                                <div class="col-md-6"><label class="form-label">Supplier</label><input type="text" name="supplier" class="form-control" value="<?= e($i['supplier']) ?>"></div>
-                                <div class="col-md-6"><label class="form-label">Last Restocked</label><input type="date" name="last_restocked" class="form-control" value="<?= e($i['last_restocked']) ?>"></div>
-                            </div>
-                            <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button><button class="btn btn-success">Save Changes</button></div>
-                        </form>
-                    </div>
-                </div>
             <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 </div>
+
+<?php foreach ($items as $i): ?>
+<div class="modal fade" id="editModal<?= $i['inventory_id'] ?>" tabindex="-1" aria-labelledby="editInventoryTitle<?= $i['inventory_id'] ?>" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" action="<?= BASE_URL ?>/inventory/update/<?= $i['inventory_id'] ?>" method="POST">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editInventoryTitle<?= $i['inventory_id'] ?>">Edit Item — <?= e($i['item_name']) ?></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row g-3">
+                <div class="col-md-6"><label class="form-label">Item Name</label><input type="text" name="item_name" class="form-control" value="<?= e($i['item_name']) ?>" required></div>
+                <div class="col-md-6">
+                    <label class="form-label">Category</label>
+                    <select name="category" class="form-select">
+                        <?php foreach (['Substrate','Spawn','Packaging','Equipment','Supplies','Other'] as $c): ?>
+                            <option value="<?= $c ?>" <?= $c==$i['category']?'selected':'' ?>><?= $c ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-md-4"><label class="form-label">Quantity</label><input type="number" step="0.01" name="quantity" class="form-control" value="<?= e($i['quantity']) ?>" required></div>
+                <div class="col-md-4"><label class="form-label">Unit</label><input type="text" name="unit" class="form-control" value="<?= e($i['unit']) ?>" required></div>
+                <div class="col-md-4"><label class="form-label">Reorder Level</label><input type="number" step="0.01" name="reorder_level" class="form-control" value="<?= e($i['reorder_level']) ?>"></div>
+                <div class="col-md-6"><label class="form-label">Unit Cost (₱)</label><input type="number" step="0.01" name="unit_cost" class="form-control" value="<?= e($i['unit_cost']) ?>"></div>
+                <div class="col-md-6"><label class="form-label">Supplier</label><input type="text" name="supplier" class="form-control" value="<?= e($i['supplier']) ?>"></div>
+                <div class="col-md-6"><label class="form-label">Last Restocked</label><input type="date" name="last_restocked" class="form-control" value="<?= e($i['last_restocked']) ?>"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-success">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+<?php endforeach; ?>
 
 <div class="modal fade" id="addModal" tabindex="-1">
     <div class="modal-dialog">

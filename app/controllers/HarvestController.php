@@ -7,6 +7,7 @@ class HarvestController extends Controller
             'pageTitle' => 'Harvest',
             'harvests'  => $this->model('Harvest')->allWithDetails(),
             'batches'   => $this->model('Production')->activeForDropdown(),
+            'allBatches'=> $this->model('Production')->allForDropdown(),
             'employees' => $this->model('Employee')->activeEmployees(),
         ];
         $this->view('harvest/index', $data);
@@ -31,9 +32,24 @@ class HarvestController extends Controller
     public function update($id)
     {
         if ($this->isPost()) {
+            $productionId = (int) $this->input('production_id', 0);
+            $weight = (float) $this->input('weight_kg', -1);
+            if (!ctype_digit((string) $id) || (int) $id < 1) {
+                $this->setFlash('danger', 'Invalid harvest record.');
+                $this->redirect('harvest');
+            }
+            if ($productionId < 1) {
+                $this->setFlash('danger', 'Please select a production batch.');
+                $this->redirect('harvest');
+            }
+            if ($weight < 0) {
+                $this->setFlash('danger', 'Harvest weight cannot be negative.');
+                $this->redirect('harvest');
+            }
             $this->model('Harvest')->update($id, [
+                'production_id' => $productionId,
                 'harvest_date' => $this->input('harvest_date'),
-                'weight_kg'    => (float) $this->input('weight_kg', 0),
+                'weight_kg'    => $weight,
                 'grade'        => $this->input('grade'),
                 'harvested_by' => $this->input('harvested_by') ?: null,
                 'notes'        => $this->input('notes'),

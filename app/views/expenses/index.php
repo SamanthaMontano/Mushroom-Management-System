@@ -28,41 +28,50 @@
                         </form>
                     </td>
                 </tr>
-                <div class="modal fade" id="editModal<?= $ex['expense_id'] ?>" tabindex="-1">
-                    <div class="modal-dialog">
-                        <form class="modal-content" action="<?= BASE_URL ?>/expense/update/<?= $ex['expense_id'] ?>" method="POST">
-                            <div class="modal-header"><h5 class="modal-title">Edit Expense</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
-                            <div class="modal-body row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">Category</label>
-                                    <select name="category" class="form-select">
-                                        <?php foreach (['Substrate','Utilities','Labor','Equipment','Transport','Packaging','Rent','Other'] as $c): ?>
-                                            <option value="<?= $c ?>" <?= $c==$ex['category']?'selected':'' ?>><?= $c ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-6"><label class="form-label">Date</label><input type="date" name="expense_date" class="form-control" value="<?= e($ex['expense_date']) ?>" required></div>
-                                <div class="col-md-6"><label class="form-label">Amount (₱)</label><input type="number" step="0.01" name="amount" class="form-control" value="<?= e($ex['amount']) ?>" required></div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Recorded By</label>
-                                    <select name="recorded_by" class="form-select">
-                                        <option value="">— None —</option>
-                                        <?php foreach ($employees as $emp): ?>
-                                            <option value="<?= $emp['employee_id'] ?>" <?= $emp['employee_id']==$ex['recorded_by']?'selected':'' ?>><?= e($emp['first_name'].' '.$emp['last_name']) ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-12"><label class="form-label">Description</label><textarea name="description" class="form-control" rows="2" required><?= e($ex['description']) ?></textarea></div>
-                            </div>
-                            <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button><button class="btn btn-success">Save Changes</button></div>
-                        </form>
-                    </div>
-                </div>
             <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 </div>
+
+<?php foreach ($expenses as $ex): ?>
+<div class="modal fade" id="editModal<?= $ex['expense_id'] ?>" tabindex="-1" aria-labelledby="editExpenseTitle<?= $ex['expense_id'] ?>" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" action="<?= BASE_URL ?>/expense/update/<?= $ex['expense_id'] ?>" method="POST">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editExpenseTitle<?= $ex['expense_id'] ?>">Edit Expense</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Category</label>
+                    <select name="category" class="form-select">
+                        <?php foreach (['Substrate','Utilities','Labor','Equipment','Transport','Packaging','Rent','Other'] as $c): ?>
+                            <option value="<?= $c ?>" <?= $c==$ex['category']?'selected':'' ?>><?= $c ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-md-6"><label class="form-label">Date</label><input type="date" name="expense_date" class="form-control" value="<?= e($ex['expense_date']) ?>" required></div>
+                <div class="col-md-6"><label class="form-label">Amount (₱)</label><input type="number" step="0.01" name="amount" class="form-control" value="<?= e($ex['amount']) ?>" required></div>
+                <div class="col-md-6">
+                    <label class="form-label">Recorded By</label>
+                    <select name="recorded_by" class="form-select">
+                        <option value="">— None —</option>
+                        <?php foreach ($employees as $emp): ?>
+                            <option value="<?= $emp['employee_id'] ?>" <?= $emp['employee_id']==$ex['recorded_by']?'selected':'' ?>><?= e($emp['first_name'].' '.$emp['last_name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-12"><label class="form-label">Description</label><textarea name="description" class="form-control" rows="2" required><?= e($ex['description']) ?></textarea></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-success">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+<?php endforeach; ?>
 
 <div class="modal fade" id="addModal" tabindex="-1">
     <div class="modal-dialog">

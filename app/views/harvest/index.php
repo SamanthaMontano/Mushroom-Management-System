@@ -29,41 +29,60 @@
                         </form>
                     </td>
                 </tr>
-                <div class="modal fade" id="editModal<?= $h['harvest_id'] ?>" tabindex="-1">
-                    <div class="modal-dialog">
-                        <form class="modal-content" action="<?= BASE_URL ?>/harvest/update/<?= $h['harvest_id'] ?>" method="POST">
-                            <div class="modal-header"><h5 class="modal-title">Edit Harvest — <?= e($h['batch_code']) ?></h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
-                            <div class="modal-body row g-3">
-                                <div class="col-md-6"><label class="form-label">Harvest Date</label><input type="date" name="harvest_date" class="form-control" value="<?= e($h['harvest_date']) ?>" required></div>
-                                <div class="col-md-6"><label class="form-label">Weight (kg)</label><input type="number" step="0.01" name="weight_kg" class="form-control" value="<?= e($h['weight_kg']) ?>" required></div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Grade</label>
-                                    <select name="grade" class="form-select">
-                                        <?php foreach (['A','B','C','Reject'] as $g): ?>
-                                            <option value="<?= $g ?>" <?= $g==$h['grade']?'selected':'' ?>><?= $g ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Harvested By</label>
-                                    <select name="harvested_by" class="form-select">
-                                        <option value="">— None —</option>
-                                        <?php foreach ($employees as $emp): ?>
-                                            <option value="<?= $emp['employee_id'] ?>" <?= $emp['employee_id']==$h['harvested_by']?'selected':'' ?>><?= e($emp['first_name'].' '.$emp['last_name']) ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-12"><label class="form-label">Notes</label><textarea name="notes" class="form-control" rows="2"><?= e($h['notes']) ?></textarea></div>
-                            </div>
-                            <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button><button class="btn btn-success">Save Changes</button></div>
-                        </form>
-                    </div>
-                </div>
             <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 </div>
+
+<?php foreach ($harvests as $h): ?>
+<div class="modal fade" id="editModal<?= $h['harvest_id'] ?>" tabindex="-1" aria-labelledby="editHarvestTitle<?= $h['harvest_id'] ?>" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <form class="modal-content" action="<?= BASE_URL ?>/harvest/update/<?= $h['harvest_id'] ?>" method="POST">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editHarvestTitle<?= $h['harvest_id'] ?>">Edit Harvest — <?= e($h['batch_code']) ?></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Production Batch</label>
+                    <select name="production_id" class="form-select" required>
+                        <?php foreach ($allBatches as $batch): ?>
+                            <option value="<?= $batch['production_id'] ?>" <?= $batch['production_id'] == $h['production_id'] ? 'selected' : '' ?>>
+                                <?= e($batch['batch_code'].' — '.$batch['mushroom_variety'].' ('.$batch['status'].')') ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-md-6"><label class="form-label">Harvest Date</label><input type="date" name="harvest_date" class="form-control" value="<?= e($h['harvest_date']) ?>" required></div>
+                <div class="col-md-6"><label class="form-label">Weight (kg)</label><input type="number" step="0.01" min="0" name="weight_kg" class="form-control" value="<?= e($h['weight_kg']) ?>" required></div>
+                <div class="col-md-6">
+                    <label class="form-label">Grade</label>
+                    <select name="grade" class="form-select">
+                        <?php foreach (['A','B','C','Reject'] as $g): ?>
+                            <option value="<?= $g ?>" <?= $g==$h['grade']?'selected':'' ?>><?= $g ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Harvested By</label>
+                    <select name="harvested_by" class="form-select">
+                        <option value="">— None —</option>
+                        <?php foreach ($employees as $emp): ?>
+                            <option value="<?= $emp['employee_id'] ?>" <?= $emp['employee_id']==$h['harvested_by']?'selected':'' ?>><?= e($emp['first_name'].' '.$emp['last_name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-12"><label class="form-label">Notes</label><textarea name="notes" class="form-control" rows="2"><?= e($h['notes']) ?></textarea></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-success">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+<?php endforeach; ?>
 
 <div class="modal fade" id="addModal" tabindex="-1">
     <div class="modal-dialog">

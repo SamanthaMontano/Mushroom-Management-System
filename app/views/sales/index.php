@@ -33,45 +33,54 @@
                         </form>
                     </td>
                 </tr>
-                <div class="modal fade" id="editModal<?= $s['sale_id'] ?>" tabindex="-1">
-                    <div class="modal-dialog modal-lg">
-                        <form class="modal-content" action="<?= BASE_URL ?>/sales/update/<?= $s['sale_id'] ?>" method="POST">
-                            <div class="modal-header"><h5 class="modal-title">Edit Sale — <?= e($s['invoice_no']) ?></h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
-                            <div class="modal-body row g-3">
-                                <div class="col-md-6"><label class="form-label">Customer Name</label><input type="text" name="customer_name" class="form-control" value="<?= e($s['customer_name']) ?>" required></div>
-                                <div class="col-md-6"><label class="form-label">Contact</label><input type="text" name="customer_contact" class="form-control" value="<?= e($s['customer_contact']) ?>"></div>
-                                <div class="col-md-6"><label class="form-label">Product</label><input type="text" name="product_name" class="form-control" value="<?= e($s['product_name']) ?>" required></div>
-                                <div class="col-md-3"><label class="form-label">Quantity</label><input type="number" step="0.01" name="quantity" class="form-control" value="<?= e($s['quantity']) ?>" required></div>
-                                <div class="col-md-3"><label class="form-label">Unit</label><input type="text" name="unit" class="form-control" value="<?= e($s['unit']) ?>"></div>
-                                <div class="col-md-4"><label class="form-label">Unit Price (₱)</label><input type="number" step="0.01" name="unit_price" class="form-control" value="<?= e($s['unit_price']) ?>" required></div>
-                                <div class="col-md-4"><label class="form-label">Sale Date</label><input type="date" name="sale_date" class="form-control" value="<?= e($s['sale_date']) ?>" required></div>
-                                <div class="col-md-4">
-                                    <label class="form-label">Payment Status</label>
-                                    <select name="payment_status" class="form-select">
-                                        <?php foreach (['Paid','Pending','Partial'] as $p): ?>
-                                            <option value="<?= $p ?>" <?= $p==$s['payment_status']?'selected':'' ?>><?= $p ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Sold By</label>
-                                    <select name="sold_by" class="form-select">
-                                        <option value="">— None —</option>
-                                        <?php foreach ($employees as $emp): ?>
-                                            <option value="<?= $emp['employee_id'] ?>" <?= $emp['employee_id']==$s['sold_by']?'selected':'' ?>><?= e($emp['first_name'].' '.$emp['last_name']) ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button><button class="btn btn-success">Save Changes</button></div>
-                        </form>
-                    </div>
-                </div>
             <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 </div>
+
+<?php foreach ($sales as $s): ?>
+<div class="modal fade" id="editModal<?= $s['sale_id'] ?>" tabindex="-1" aria-labelledby="editSaleTitle<?= $s['sale_id'] ?>" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <form class="modal-content" action="<?= BASE_URL ?>/sales/update/<?= $s['sale_id'] ?>" method="POST">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editSaleTitle<?= $s['sale_id'] ?>">Edit Sale — <?= e($s['invoice_no']) ?></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row g-3">
+                <div class="col-md-6"><label class="form-label">Customer Name</label><input type="text" name="customer_name" class="form-control" value="<?= e($s['customer_name']) ?>" required></div>
+                <div class="col-md-6"><label class="form-label">Contact</label><input type="text" name="customer_contact" class="form-control" value="<?= e($s['customer_contact']) ?>"></div>
+                <div class="col-md-6"><label class="form-label">Product</label><input type="text" name="product_name" class="form-control" value="<?= e($s['product_name']) ?>" required></div>
+                <div class="col-md-3"><label class="form-label">Quantity</label><input type="number" step="0.01" name="quantity" class="form-control" value="<?= e($s['quantity']) ?>" required></div>
+                <div class="col-md-3"><label class="form-label">Unit</label><input type="text" name="unit" class="form-control" value="<?= e($s['unit']) ?>"></div>
+                <div class="col-md-4"><label class="form-label">Unit Price (₱)</label><input type="number" step="0.01" name="unit_price" class="form-control" value="<?= e($s['unit_price']) ?>" required></div>
+                <div class="col-md-4"><label class="form-label">Sale Date</label><input type="date" name="sale_date" class="form-control" value="<?= e($s['sale_date']) ?>" required></div>
+                <div class="col-md-4">
+                    <label class="form-label">Payment Status</label>
+                    <select name="payment_status" class="form-select">
+                        <?php foreach (['Paid','Pending','Partial'] as $p): ?>
+                            <option value="<?= $p ?>" <?= $p==$s['payment_status']?'selected':'' ?>><?= $p ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Sold By</label>
+                    <select name="sold_by" class="form-select">
+                        <option value="">— None —</option>
+                        <?php foreach ($employees as $emp): ?>
+                            <option value="<?= $emp['employee_id'] ?>" <?= $emp['employee_id']==$s['sold_by']?'selected':'' ?>><?= e($emp['first_name'].' '.$emp['last_name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-success">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+<?php endforeach; ?>
 
 <div class="modal fade" id="addModal" tabindex="-1">
     <div class="modal-dialog modal-lg">

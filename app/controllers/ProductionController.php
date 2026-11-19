@@ -19,8 +19,7 @@ class ProductionController extends Controller
     {
         if ($this->isPost()) {
             $model = $this->model('Production');
-            $model->insert([
-                'batch_code'             => $this->input('batch_code'),
+            $model->insertWithGeneratedBatchCode([
                 'mushroom_variety'       => $this->input('mushroom_variety'),
                 'substrate_type'         => $this->input('substrate_type'),
                 'bag_quantity'           => (int) $this->input('bag_quantity', 0),

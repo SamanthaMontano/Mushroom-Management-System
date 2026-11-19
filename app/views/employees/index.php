@@ -33,44 +33,53 @@
                         <?php endif; ?>
                     </td>
                 </tr>
-                <div class="modal fade" id="editModal<?= $emp['employee_id'] ?>" tabindex="-1">
-                    <div class="modal-dialog modal-lg">
-                        <form class="modal-content" action="<?= BASE_URL ?>/employee/update/<?= $emp['employee_id'] ?>" method="POST">
-                            <div class="modal-header"><h5 class="modal-title">Edit Employee — <?= e($emp['first_name']) ?></h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
-                            <div class="modal-body row g-3">
-                                <div class="col-md-6"><label class="form-label">First Name</label><input type="text" name="first_name" class="form-control" value="<?= e($emp['first_name']) ?>" required></div>
-                                <div class="col-md-6"><label class="form-label">Last Name</label><input type="text" name="last_name" class="form-control" value="<?= e($emp['last_name']) ?>" required></div>
-                                <div class="col-md-6"><label class="form-label">Email</label><input type="email" name="email" class="form-control" value="<?= e($emp['email']) ?>"></div>
-                                <div class="col-md-6"><label class="form-label">Phone</label><input type="text" name="phone" class="form-control" value="<?= e($emp['phone']) ?>"></div>
-                                <div class="col-md-6"><label class="form-label">Position</label><input type="text" name="position" class="form-control" value="<?= e($emp['position']) ?>" required></div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Role</label>
-                                    <select name="role" class="form-select">
-                                        <?php foreach (['admin' => 'Owner', 'manager' => 'Manager', 'staff' => 'Staff'] as $r => $label): ?>
-                                            <option value="<?= $r ?>" <?= $r==$emp['role']?'selected':'' ?>><?= $label ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-4"><label class="form-label">Date Hired</label><input type="date" name="date_hired" class="form-control" value="<?= e($emp['date_hired']) ?>"></div>
-                                <div class="col-md-4"><label class="form-label">Salary (₱)</label><input type="number" step="0.01" name="salary" class="form-control" value="<?= e($emp['salary']) ?>"></div>
-                                <div class="col-md-4">
-                                    <label class="form-label">Status</label>
-                                    <select name="status" class="form-select">
-                                        <option value="active" <?= $emp['status']=='active'?'selected':'' ?>>Active</option>
-                                        <option value="inactive" <?= $emp['status']=='inactive'?'selected':'' ?>>Inactive</option>
-                                    </select>
-                                </div>
-                                <div class="col-12"><label class="form-label">Reset Password <span class="text-muted small">(leave blank to keep current; minimum 8 characters)</span></label><input type="password" name="password" class="form-control" minlength="8" autocomplete="new-password" placeholder="New password"></div>
-                            </div>
-                            <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button><button class="btn btn-success">Save Changes</button></div>
-                        </form>
-                    </div>
-                </div>
             <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 </div>
+
+<?php foreach ($employees as $emp): ?>
+<div class="modal fade" id="editModal<?= $emp['employee_id'] ?>" tabindex="-1" aria-labelledby="editEmployeeTitle<?= $emp['employee_id'] ?>" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <form class="modal-content" action="<?= BASE_URL ?>/employee/update/<?= $emp['employee_id'] ?>" method="POST">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editEmployeeTitle<?= $emp['employee_id'] ?>">Edit Employee — <?= e($emp['first_name']) ?></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row g-3">
+                <div class="col-md-6"><label class="form-label">First Name</label><input type="text" name="first_name" class="form-control" value="<?= e($emp['first_name']) ?>" required></div>
+                <div class="col-md-6"><label class="form-label">Last Name</label><input type="text" name="last_name" class="form-control" value="<?= e($emp['last_name']) ?>" required></div>
+                <div class="col-md-6"><label class="form-label">Email</label><input type="email" name="email" class="form-control" value="<?= e($emp['email']) ?>"></div>
+                <div class="col-md-6"><label class="form-label">Phone</label><input type="text" name="phone" class="form-control" value="<?= e($emp['phone']) ?>"></div>
+                <div class="col-md-6"><label class="form-label">Position</label><input type="text" name="position" class="form-control" value="<?= e($emp['position']) ?>" required></div>
+                <div class="col-md-6">
+                    <label class="form-label">Role</label>
+                    <select name="role" class="form-select">
+                        <?php foreach (['admin' => 'Owner', 'manager' => 'Manager', 'staff' => 'Staff'] as $r => $label): ?>
+                            <option value="<?= $r ?>" <?= $r==$emp['role']?'selected':'' ?>><?= $label ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-md-4"><label class="form-label">Date Hired</label><input type="date" name="date_hired" class="form-control" value="<?= e($emp['date_hired']) ?>"></div>
+                <div class="col-md-4"><label class="form-label">Salary (₱)</label><input type="number" step="0.01" name="salary" class="form-control" value="<?= e($emp['salary']) ?>"></div>
+                <div class="col-md-4">
+                    <label class="form-label">Status</label>
+                    <select name="status" class="form-select">
+                        <option value="active" <?= $emp['status']=='active'?'selected':'' ?>>Active</option>
+                        <option value="inactive" <?= $emp['status']=='inactive'?'selected':'' ?>>Inactive</option>
+                    </select>
+                </div>
+                <div class="col-12"><label class="form-label">Reset Password <span class="text-muted small">(leave blank to keep current; minimum 8 characters)</span></label><input type="password" name="password" class="form-control" minlength="8" autocomplete="new-password" placeholder="New password"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-success">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+<?php endforeach; ?>
 
 <div class="modal fade" id="addModal" tabindex="-1">
     <div class="modal-dialog modal-lg">

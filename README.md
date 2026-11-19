@@ -74,19 +74,67 @@ mushroom-system/
   used in the sign-in page and application navigation.
 
 ## Modules included
-| Module      | What it does |
-|-------------|---------------|
-| Dashboard   | KPI cards, sales trend chart, harvest-by-variety chart, recent activity, low-stock alerts |
-| Production  | Track growing batches: variety, substrate, bag count, inoculation → harvest dates, status |
-| Harvest     | Log yields per batch, with grade (A/B/C/Reject) |
-| Processing  | Convert raw harvest into fresh-pack / dried / powdered product, tracking input vs output weight |
-| Inventory   | Raw materials & supplies with auto-computed stock status and reorder alerts |
-| Sales       | Invoices, customer info, product, quantity, pricing, payment status, printable receipts |
-| Delivery    | Schedule and track fulfillment tied to a sale/invoice |
-| Expenses    | Categorized expense logging |
-| Employees   | Staff accounts, roles (admin/manager/staff), login credentials |
-| Reports     | Date-range P&L: sales vs expenses, sales by product, expenses by category, production summary, printable |
-| Settings    | Signed-in account details and password change |
+| Module | Functionality |
+|--------|---------------|
+| Dashboard | Shows active production batches, the current month's harvest, sales and expenses, low-stock and pending-delivery counts, active employees, recent activity, sales trends, harvest-by-variety, production status, and upcoming harvests. |
+| Production | Creates and updates growing batches with batch code, mushroom variety, substrate, bag quantity, inoculation and expected harvest dates, growing location, responsible employee, status, and notes. Status options include Incubation, Fruiting, Harvesting, Completed, and Failed. |
+| Harvest | Records harvest weight and grade (A, B, C, or Reject) for an active production batch. A harvest can identify the employee who harvested it and includes notes. |
+| Processing | Converts a harvest record into Fresh Pack, Dried, Powdered, Marinated, or Other output. It tracks input and output weights, output unit, process date, employee, status (In Progress or Completed), and notes. |
+| Inventory | Stores raw materials and supplies with quantity, unit, reorder level, unit cost, supplier, and restock date. Inventory status is calculated automatically: Out of Stock at zero quantity, Low Stock at or below the reorder level, and In Stock otherwise. |
+| Sales | Creates invoice transactions with customer details, product, quantity, unit, unit price, sale date, seller, and payment status (Paid, Pending, or Partial). The displayed total and report amount are calculated from quantity multiplied by unit price. It also provides printable receipts and automatically generated invoice numbers. |
+| Delivery | Schedules fulfillment for a sale/invoice. Tracks delivery address and date, rider, contact number, delivery fee, status (Pending, In Transit, Delivered, or Cancelled), and notes. |
+| Expenses | Records categorized expenses with an amount, date, description, and the employee who recorded it. Categories include Substrate, Utilities, Labor, Equipment, Transport, Packaging, Rent, and Other. |
+| Employees | Manages staff accounts and employee details, including login username/password, position, role (admin/manager/staff), salary, hire date, and active/inactive status. |
+| Reports | For owners only, provides a date-range summary of sales, expenses, net profit, harvested weight, sales by product, expenses by category, and production/harvest totals. Reports can be printed. |
+| Settings | Lets the signed-in account review its details and change its password. |
+
+## Interface features
+- The application has a collapsible navigation sidebar, page and current-list search,
+  and a responsive layout shared across modules.
+- Light and dark themes apply across the application and are saved in the current
+  browser.
+- The notification menu surfaces current low/out-of-stock inventory, harvests due in
+  the next seven days, and pending or in-transit deliveries. Read status and notification
+  history are stored per account in that browser; alerts are based on current database
+  conditions rather than fabricated sample activity.
+
+## Data relationships and update effects
+
+Changes made in one module are reflected in related screens and calculations:
+
+- **Editing a sale** recalculates `total_amount` as `quantity × unit_price`. The updated
+  `total_amount`, sale date, and product name immediately affect Dashboard monthly sales,
+  the six-month sales chart, recent sales, date-range Reports, sales-by-product totals,
+  and net profit (`sales - expenses`). Changing the payment status updates the sales record
+  but does not exclude the sale from sales totals.
+- **Deleting a sale** removes the sale and automatically deletes its delivery records
+  through the database relationship. It also removes that sale from sales Dashboard totals,
+  recent sales, and Reports.
+- **Recording or editing a sale does not automatically reduce Inventory stock.** Sales
+  and Inventory are currently separate records; inventory quantities must be maintained
+  manually in the Inventory module.
+- **Editing an inventory quantity or reorder level** recalculates the item's stock status
+  and updates low-stock counts and low-stock alerts on the Dashboard.
+- **Adding or editing a harvest** allows the production batch, harvest date, weight,
+  grade, harvested-by employee, and notes to be changed. These edits update harvest totals and harvest-by-variety records
+  on the Dashboard and date-range harvest totals on Reports. Deleting a harvest also
+  deletes processing records linked to that harvest.
+- **Adding or editing a processing record** updates recent processing activity on the
+  Dashboard and production details linked through the harvest record.
+- **Changing a production batch** updates batch status counts, active-batch counts,
+  upcoming harvest lists, and the production summary in Reports. Deleting a production
+  batch automatically deletes its linked harvest records and their linked processing
+  records.
+- **Updating a delivery status** changes pending/in-transit delivery counts on the
+  Dashboard. Marking a delivery as Delivered or Cancelled removes it from the pending
+  delivery count.
+- **Editing or deleting an expense** updates the Dashboard's current-month expense
+  amount, expense category totals, and net profit in Reports.
+- **Changing an employee** updates employee names shown beside linked production,
+  harvest, processing, and expense records. Deactivated employees remain in existing
+  records but are excluded from active-employee counts and new-record dropdown lists.
+  If an employee is deleted, related linked fields are set to null; production, harvest,
+  processing, sales, and expenses are not deleted.
 
 ## Notes on the architecture
 - **Routing:** `public/index.php?url=controller/action/param` (rewritten by

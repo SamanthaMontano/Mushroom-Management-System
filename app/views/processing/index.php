@@ -30,51 +30,60 @@
                         </form>
                     </td>
                 </tr>
-                <div class="modal fade" id="editModal<?= $r['processing_id'] ?>" tabindex="-1">
-                    <div class="modal-dialog">
-                        <form class="modal-content" action="<?= BASE_URL ?>/processing/update/<?= $r['processing_id'] ?>" method="POST">
-                            <div class="modal-header"><h5 class="modal-title">Edit Process — <?= e($r['batch_code']) ?></h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
-                            <div class="modal-body row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">Process Type</label>
-                                    <select name="process_type" class="form-select">
-                                        <?php foreach (['Fresh Pack','Dried','Powdered','Marinated','Other'] as $t): ?>
-                                            <option value="<?= $t ?>" <?= $t==$r['process_type']?'selected':'' ?>><?= $t ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-6"><label class="form-label">Process Date</label><input type="date" name="process_date" class="form-control" value="<?= e($r['process_date']) ?>" required></div>
-                                <div class="col-md-4"><label class="form-label">Input Weight (kg)</label><input type="number" step="0.01" name="input_weight_kg" class="form-control" value="<?= e($r['input_weight_kg']) ?>"></div>
-                                <div class="col-md-4"><label class="form-label">Output Weight</label><input type="number" step="0.01" name="output_weight_kg" class="form-control" value="<?= e($r['output_weight_kg']) ?>"></div>
-                                <div class="col-md-4"><label class="form-label">Output Unit</label><input type="text" name="output_unit" class="form-control" value="<?= e($r['output_unit']) ?>"></div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Status</label>
-                                    <select name="status" class="form-select">
-                                        <?php foreach (['In Progress','Completed'] as $s): ?>
-                                            <option value="<?= $s ?>" <?= $s==$r['status']?'selected':'' ?>><?= $s ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Processed By</label>
-                                    <select name="processed_by" class="form-select">
-                                        <option value="">— None —</option>
-                                        <?php foreach ($employees as $emp): ?>
-                                            <option value="<?= $emp['employee_id'] ?>" <?= $emp['employee_id']==$r['processed_by']?'selected':'' ?>><?= e($emp['first_name'].' '.$emp['last_name']) ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-12"><label class="form-label">Notes</label><textarea name="notes" class="form-control" rows="2"><?= e($r['notes']) ?></textarea></div>
-                            </div>
-                            <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button><button class="btn btn-success">Save Changes</button></div>
-                        </form>
-                    </div>
-                </div>
             <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 </div>
+
+<?php foreach ($records as $r): ?>
+<div class="modal fade" id="editModal<?= $r['processing_id'] ?>" tabindex="-1" aria-labelledby="editProcessTitle<?= $r['processing_id'] ?>" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" action="<?= BASE_URL ?>/processing/update/<?= $r['processing_id'] ?>" method="POST">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProcessTitle<?= $r['processing_id'] ?>">Edit Process — <?= e($r['batch_code']) ?></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Process Type</label>
+                    <select name="process_type" class="form-select">
+                        <?php foreach (['Fresh Pack','Dried','Powdered','Marinated','Other'] as $t): ?>
+                            <option value="<?= $t ?>" <?= $t==$r['process_type']?'selected':'' ?>><?= $t ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-md-6"><label class="form-label">Process Date</label><input type="date" name="process_date" class="form-control" value="<?= e($r['process_date']) ?>" required></div>
+                <div class="col-md-4"><label class="form-label">Input Weight (kg)</label><input type="number" step="0.01" name="input_weight_kg" class="form-control" value="<?= e($r['input_weight_kg']) ?>"></div>
+                <div class="col-md-4"><label class="form-label">Output Weight</label><input type="number" step="0.01" name="output_weight_kg" class="form-control" value="<?= e($r['output_weight_kg']) ?>"></div>
+                <div class="col-md-4"><label class="form-label">Output Unit</label><input type="text" name="output_unit" class="form-control" value="<?= e($r['output_unit']) ?>"></div>
+                <div class="col-md-6">
+                    <label class="form-label">Status</label>
+                    <select name="status" class="form-select">
+                        <?php foreach (['In Progress','Completed'] as $s): ?>
+                            <option value="<?= $s ?>" <?= $s==$r['status']?'selected':'' ?>><?= $s ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Processed By</label>
+                    <select name="processed_by" class="form-select">
+                        <option value="">— None —</option>
+                        <?php foreach ($employees as $emp): ?>
+                            <option value="<?= $emp['employee_id'] ?>" <?= $emp['employee_id']==$r['processed_by']?'selected':'' ?>><?= e($emp['first_name'].' '.$emp['last_name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-12"><label class="form-label">Notes</label><textarea name="notes" class="form-control" rows="2"><?= e($r['notes']) ?></textarea></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-success">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+<?php endforeach; ?>
 
 <div class="modal fade" id="addModal" tabindex="-1">
     <div class="modal-dialog">
